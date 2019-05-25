@@ -6,12 +6,12 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class Runner implements Commons, Runnable {
-    volatile int x;
-    int y;
-    int oneStep = DEFAULT_RUNNER_SPEED;
-    boolean isStopped = true;
-    String name;
-    Race race;
+    private int x;
+    private int y;
+    private int oneStep = DEFAULT_RUNNER_SPEED;
+    private boolean isStopped = true;
+    private String name;
+    private Race race;
 
     Runner(int x, int y, Race race) {
         this.race = race;
@@ -33,6 +33,14 @@ public abstract class Runner implements Commons, Runnable {
         return name;
     }
 
+    public int getOneStep() {
+        return oneStep;
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
     public boolean isStopped() {
         return isStopped;
     }
@@ -40,6 +48,18 @@ public abstract class Runner implements Commons, Runnable {
     //Determines if the specified point is contained within the region defined by Runner
     public boolean isClicked(Point point) {
         return isClicked(point.x, point.y);
+    }
+
+    public void setX(int x) {
+        this.x = x;
+    }
+
+    public void setStopped(boolean stopped) {
+        isStopped = stopped;
+    }
+
+    public int getY() {
+        return y;
     }
 
     boolean isFinished() {

@@ -23,13 +23,13 @@ public class Cockroach extends Runner implements Runnable, Commons {
 
     @Override
     public void draw(Graphics g, JPanel observer) {
-        g.drawImage(currentImage, x, y, RUNNER_WIDTH, RUNNER_HEIGHT, observer);
+        g.drawImage(currentImage, getX(), getY(), RUNNER_WIDTH, RUNNER_HEIGHT, observer);
     }
 
     @Override
     public void run() {
-        isStopped = false;
-        while (!isStopped && isFinished()) {
+        setStopped(false);
+        while (!isStopped() && isFinished()) {
             move();
             try {
                 int random = (int) (Math.random() * MAX_DELAY);
@@ -42,14 +42,16 @@ public class Cockroach extends Runner implements Runnable, Commons {
 
     @Override
     public void move() {
-        x = x < FINISH ? x + oneStep : FINISH;
-        if (x >= FINISH) {
-            isStopped = true;
-            x = FINISH;
+        if (getX() < FINISH) {
+            setX(getX() + getOneStep());
+            getRace().checkLeader(this);
+        }
+
+        if (getX() >= FINISH) {
+            setStopped(true);
+            setX(FINISH);
             currentImage = standImg;
-            race.makeLeaderBoard(name);
-        } else {
-            race.checkLeader(this);
+            getRace().makeLeaderBoard(getName());
         }
     }
 
